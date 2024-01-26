@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Algo Image Viewer"
 include(":app")
- 
+include(":algoimageviewer")
