@@ -1,5 +1,8 @@
 [versions]
 agp = "8.2.0"
+glide-compiler = "4.12.0"
+glide = "4.15.0"
+glide-compose = "1.0.0-alpha.1"
 kotlin = "1.9.0"
 core-ktx = "1.12.0"
 junit = "4.13.2"
@@ -12,7 +15,10 @@ appcompat = "1.6.1"
 material = "1.11.0"
 
 [libraries]
+glide-compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide-compiler" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide-compose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
@@ -34,3 +40,5 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
+[bundles]
+glide = ["glide", "glide-compose"]
