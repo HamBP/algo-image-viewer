@@ -26,6 +26,8 @@ import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -37,6 +39,7 @@ import kotlin.math.abs
 fun SampleGlideImage() {
     var scale by remember { mutableStateOf(1f) }
     var offset by remember { mutableStateOf(Offset(0f, 0f)) }
+    var size = remember { IntSize(0, 0) }
 
     val pagerState = rememberPagerState {
         2
@@ -49,13 +52,23 @@ fun SampleGlideImage() {
     ) {
         GlideImage(
             modifier = Modifier.fillMaxWidth()
+                .onSizeChanged { newSize ->
+                    size = newSize
+                }
                 .pointerInput(Unit) {
                     myDetectTransformGestures { _, pan, zoom, _ ->
                         scale *= zoom
 
                         scale = scale.coerceIn(1f, 3f)
 
-                        offset = if (scale == 1f) Offset(0f, 0f) else offset + pan
+                        val extraX = (scale - 1) * size.width
+                        val maxXOffset = extraX / 2
+
+                        val newOffset = offset + pan
+                        offset = Offset(
+                            x = newOffset.x.coerceIn(-maxXOffset, maxXOffset),
+                            y = newOffset.y
+                        )
                     }
                 }
                 .graphicsLayer {
